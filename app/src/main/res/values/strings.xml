@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Popular Movies Stage 2</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_popular_movies_settings">Popular Movies Settings</string>
+    <string name="title_themoviedb_api_key">The Movie DB API Key</string>
+    <string name="toast_settings_themoviedb_api_key">Please use 32 alphanumerical characters.</string>
+    <string name="toast_themoviedb_api_key">Please enter The Movie DB Api Key.</string>
+    <string name="toast_network_unavailable">Please check your network connection.</string>
+    <string name="toast_added_to_favorites">has been added to favorites.</string>
+    <string name="toast_removed_from_favorites">has been removed from favorites.</string>
+    <string name="text_overview">Overview</string>
+    <string name="text_vote_average">Vote Average:</string>
+    <string name="text_release_date">Release Date:</string>
+    <string name="text_review_written_by">Review written by</string>
+    <string name="content_poster">Poster</string>
+    <string name="title_most_popular">Most Popular</string>
+    <string name="title_top_rated">Top Rated</string>
+    <string name="title_favorite">Favorite</string>
+
+    <string name="tag_review_author">review_author</string>
+    <string name="tag_review_content">review_content</string>
+
+    <string name="key_themoviedb_api_key">themoviedb_api_key</string>
+
+    <string name="content_authority">com.sielski.marcin.popularmovies</string>
+
+</resources>
