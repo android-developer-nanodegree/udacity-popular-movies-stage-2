@@ -226,16 +226,16 @@ public class PopularMovieDetailsActivity extends AppCompatActivity {
     };
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         this.registerReceiver(broadcastReceiver,
                 new IntentFilter(PopularMoviesUtils.ACTION_NETWORK_CHANGE));
     }
 
     @Override
-    protected void onPause() {
+    protected void onStop() {
         this.unregisterReceiver(broadcastReceiver);
-        super.onPause();
+        super.onStop();
     }
 
     @Override

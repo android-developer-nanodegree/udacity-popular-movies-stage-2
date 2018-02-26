@@ -97,8 +97,8 @@ public class PopularMoviesFragment extends Fragment {
     };
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         ((GridLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(
                 PreferenceManager.getDefaultSharedPreferences(
                 getActivity()).getInt(mSortCriterion, 0), 0);
@@ -108,10 +108,10 @@ public class PopularMoviesFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
+    public void onStop() {
         Context context = getContext();
         if (context != null) context.unregisterReceiver(broadcastReceiver);
-        super.onPause();
+        super.onStop();
     }
 
 }
