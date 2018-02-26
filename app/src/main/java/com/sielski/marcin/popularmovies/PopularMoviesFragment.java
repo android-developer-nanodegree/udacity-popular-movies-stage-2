@@ -97,11 +97,16 @@ public class PopularMoviesFragment extends Fragment {
     };
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         ((GridLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(
                 PreferenceManager.getDefaultSharedPreferences(
-                getActivity()).getInt(mSortCriterion, 0), 0);
+                        getActivity()).getInt(mSortCriterion, 0), 0);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         Context context = getContext();
         if (context != null) context.registerReceiver(broadcastReceiver,
                 new IntentFilter(PopularMoviesUtils.ACTION_NETWORK_CHANGE));
