@@ -1,4 +1,4 @@
-package com.sielski.marcin.popularmovies;
+package com.sielski.marcin.popularmovies.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;

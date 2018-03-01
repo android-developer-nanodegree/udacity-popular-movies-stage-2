@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.sielski.marcin.popularmovies.util.PopularMoviesUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 

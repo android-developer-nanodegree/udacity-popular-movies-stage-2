@@ -28,6 +28,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sielski.marcin.popularmovies.data.PopularMoviesContract;
+import com.sielski.marcin.popularmovies.util.PopularMoviesUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 

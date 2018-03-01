@@ -9,7 +9,8 @@
     android:divider="?android:attr/dividerHorizontal"
     tools:context=".PopularMoviesActivity">
 
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.sielski.marcin.popularmovies.PopularMoviesView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/list_popular_movies"
         android:name="com.sielski.marcin.popularmovies.PopularMoviesFragment"

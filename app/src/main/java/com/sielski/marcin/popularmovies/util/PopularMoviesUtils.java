@@ -1,4 +1,4 @@
-package com.sielski.marcin.popularmovies;
+package com.sielski.marcin.popularmovies.util;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,6 +9,9 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+
+import com.sielski.marcin.popularmovies.R;
+import com.sielski.marcin.popularmovies.data.PopularMoviesContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,43 +28,44 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-class PopularMoviesUtils {
+public class PopularMoviesUtils {
     private final static String THEMOVIEDB_API_BASE_URL = "https://api.themoviedb.org/3/movie";
     private final static String THEMOVIEDB_IMAGE_BASE_URL = "http://image.tmdb.org/t/p";
 
-    final static String POPULAR = "popular";
-    final static String TOP_RATED = "top_rated";
-    final static String FAVORITE = "favorite";
+    public final static String POPULAR = "popular";
+    public final static String TOP_RATED = "top_rated";
+    public final static String FAVORITE = "favorite";
 
-    final static Map<String, Integer> id = new HashMap<>();
+    public final static Map<String, Integer> id = new HashMap<>();
     static {
         id.put(POPULAR, 0x1badbeef);
         id.put(TOP_RATED, 0x1badcafe);
         id.put(FAVORITE, 0x1badf00d);
     }
 
-    final static String REVIEWS = "reviews";
-    final static String VIDEOS = "videos";
+    public final static String REVIEWS = "reviews";
+    public final static String VIDEOS = "videos";
 
     private final static String API_KEY = "api_key";
     private final static String POSTER_SIZE = "w342";
 
     private final static String RESULTS = "results";
 
-    final static String SORT_CRITERION = "sort_criterion";
+    public final static String SORT_CRITERION = "sort_criterion";
 
-    final static String ACTION_NETWORK_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
+    public final static String ACTION_NETWORK_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
 
     private final static String SITE = "YouTube";
     private final static String YOUTUBE_API_BASE_URL = "http://www.youtube.com/watch";
     private final static String YOUTUBE_VIEW_QUERY_PARAMETER = "v";
 
-    static String getTheMoviesDBApiKey(Context context) {
+    public static String getTheMoviesDBApiKey(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString(context.getString(R.string.key_themoviedb_api_key), "");
+        return preferences.getString(context.getString(R.string.key_themoviedb_api_key),
+                "");
     }
 
-    static boolean isNetworkAvailable(Context context) {
+    public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = null;
@@ -71,12 +75,13 @@ class PopularMoviesUtils {
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
-    static URL buildApiUrl(Context context, String entry, String endpoint) {
+    public static URL buildApiUrl(Context context, String entry, String endpoint) {
         Uri.Builder builder = Uri.parse(THEMOVIEDB_API_BASE_URL).buildUpon();
         if (entry != null && entry.length() > 0) {
             builder.appendPath(entry);
         }
-        Uri uri = builder.appendPath(endpoint).appendQueryParameter(API_KEY, getTheMoviesDBApiKey(context)).build();
+        Uri uri = builder.appendPath(endpoint).appendQueryParameter(API_KEY,
+                getTheMoviesDBApiKey(context)).build();
         URL url = null;
         try {
             url = new URL(uri.toString());
@@ -86,11 +91,11 @@ class PopularMoviesUtils {
         return url;
     }
 
-    static URL buildApiUrl(Context context, String endpoint) {
+    public static URL buildApiUrl(Context context, String endpoint) {
         return buildApiUrl(context, null, endpoint);
     }
 
-    static String getResponseFromHttpUrl(URL url) throws IOException {
+    public static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream inputStream = httpURLConnection.getInputStream();
@@ -107,7 +112,7 @@ class PopularMoviesUtils {
         }
     }
 
-    static String getResponseFromContentProvider(Context context) {
+    public static String getResponseFromContentProvider(Context context) {
         Cursor cursor = PopularMoviesContract.getFavoritePopularMovies(context);
         String result = null;
         try {
@@ -119,7 +124,8 @@ class PopularMoviesUtils {
                     String[] columnNames = cursor.getColumnNames();
                     JSONObject popularMovie = new JSONObject();
                     for(String columnName: columnNames) {
-                        popularMovie.put(columnName, cursor.getString(cursor.getColumnIndex(columnName)));
+                        popularMovie.put(columnName,
+                                cursor.getString(cursor.getColumnIndex(columnName)));
                     }
                     jsonArray.put(popularMovie);
                 } while (cursor.moveToNext());
@@ -131,7 +137,7 @@ class PopularMoviesUtils {
         return result;
     }
 
-    static List<ContentValues> getPopularMovies(String json) {
+    public static List<ContentValues> getPopularMovies(String json) {
         List<ContentValues> popularMovies = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(json);
@@ -191,7 +197,7 @@ class PopularMoviesUtils {
         return popularMovies;
     }
 
-    static ContentValues[] getPopularMovieReviews(String json) {
+    public static ContentValues[] getPopularMovieReviews(String json) {
         List<ContentValues> popularMovieReviews = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(json);
@@ -217,7 +223,7 @@ class PopularMoviesUtils {
         return popularMovieReviews.toArray(new ContentValues[0]);
     }
 
-    static ContentValues[] getPopularMovieVideos(String json) {
+    public static ContentValues[] getPopularMovieVideos(String json) {
         List<ContentValues> popularMovieVideos = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(json);
@@ -253,7 +259,7 @@ class PopularMoviesUtils {
     }
 
 
-    static int spanCount(Context context) {
+    public static int spanCount(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dp = (float)(displayMetrics.widthPixels) / displayMetrics.density;
         if (dp < 900) {
@@ -262,11 +268,11 @@ class PopularMoviesUtils {
         return 2;
     }
 
-    static boolean isSupported(String site) {
+    public static boolean isSupported(String site) {
         return SITE.equals(site);
     }
 
-    static Uri buildVideoUri(String key) {
+    public static Uri buildVideoUri(String key) {
         return Uri.parse(YOUTUBE_API_BASE_URL).buildUpon()
                 .appendQueryParameter(YOUTUBE_VIEW_QUERY_PARAMETER, key).build();
     }

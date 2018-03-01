@@ -7,6 +7,8 @@ import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import com.sielski.marcin.popularmovies.util.PopularMoviesUtils;
+
 public class PopularMoviesSettingsFragment extends PreferenceFragment implements
         Preference.OnPreferenceChangeListener, SharedPreferences.OnSharedPreferenceChangeListener {
 

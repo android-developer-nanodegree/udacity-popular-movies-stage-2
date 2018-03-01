@@ -1,4 +1,4 @@
-package com.sielski.marcin.popularmovies;
+package com.sielski.marcin.popularmovies.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.sielski.marcin.popularmovies.PopularMovieDetailsActivity;
+import com.sielski.marcin.popularmovies.PopularMovieDetailsFragment;
+import com.sielski.marcin.popularmovies.data.PopularMoviesContract;
+import com.sielski.marcin.popularmovies.util.PopularMoviesUtils;
+import com.sielski.marcin.popularmovies.R;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
@@ -39,8 +43,8 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
         }
     }
 
-    PopularMoviesAdapter(Fragment parentFragment, List<ContentValues> items, String sortCriterion,
-                         boolean twoPane) {
+    public PopularMoviesAdapter(Fragment parentFragment, List<ContentValues> items,
+                                String sortCriterion, boolean twoPane) {
         mParentFragment = parentFragment;
         mPopularMovies = items;
         mSortCriterion = sortCriterion;
@@ -62,9 +66,6 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
             mPopularMovie = holder.mPopularMovie;
             Context context = view.getContext();
             if (PopularMoviesUtils.isNetworkAvailable(context)) {
-                PreferenceManager.getDefaultSharedPreferences(context).edit()
-                        .putInt(mSortCriterion, ((RecyclerView) view.getParent())
-                                .getLayoutManager().getPosition(view)).apply();
                 if (mTwoPane) {
                     PopularMovieDetailsFragment popularMovieDetailsFragment =
                             new PopularMovieDetailsFragment();

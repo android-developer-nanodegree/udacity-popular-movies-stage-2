@@ -8,24 +8,27 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import com.sielski.marcin.popularmovies.adapter.PopularMoviesAdapter;
+import com.sielski.marcin.popularmovies.util.PopularMoviesUtils;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
 public class PopularMoviesFragment extends Fragment {
+
     private String mSortCriterion;
     private ProgressBar mProgressBar;
-    private RecyclerView mRecyclerView;
+    private PopularMoviesView mRecyclerView;
     private boolean mTwoPane;
     private PopularMoviesAdapter mPopularMoviesAdapter;
 
@@ -53,7 +56,9 @@ public class PopularMoviesFragment extends Fragment {
             String theMovieDBResult = null;
             try {
                 if (mSortCriterion.equals(PopularMoviesUtils.FAVORITE)) {
-                    theMovieDBResult = PopularMoviesUtils.getResponseFromContentProvider(getContext());
+                    theMovieDBResult =
+                            PopularMoviesUtils.getResponseFromContentProvider(
+                                    PopularMoviesFragment.this.getContext());
                 } else {
                     theMovieDBResult = PopularMoviesUtils.getResponseFromHttpUrl(url);
                 }
@@ -107,14 +112,6 @@ public class PopularMoviesFragment extends Fragment {
             }
         }
     };
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((GridLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(
-                PreferenceManager.getDefaultSharedPreferences(
-                        getActivity()).getInt(mSortCriterion, 0), 0);
-    }
 
     @Override
     public void onStart() {

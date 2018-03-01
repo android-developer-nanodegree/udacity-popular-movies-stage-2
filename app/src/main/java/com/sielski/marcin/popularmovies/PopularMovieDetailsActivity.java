@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 
+import com.sielski.marcin.popularmovies.data.PopularMoviesContract;
+import com.sielski.marcin.popularmovies.util.PopularMoviesUtils;
+
 import java.io.IOException;
 import java.net.URL;
 
