@@ -26,6 +26,8 @@ public class PopularMoviesFragment extends Fragment {
     private String mSortCriterion;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
+    private boolean mTwoPane;
+    private PopularMoviesAdapter mPopularMoviesAdapter;
 
     @Override
     public void setArguments(@Nullable Bundle args) {
@@ -67,8 +69,13 @@ public class PopularMoviesFragment extends Fragment {
             if (s != null && s.length() > 0) {
 
                 List<ContentValues> popularMovies = PopularMoviesUtils.getPopularMovies(s);
-                mRecyclerView.setAdapter(new PopularMoviesAdapter(getActivity(), popularMovies,
-                        mSortCriterion));
+                if (mSortCriterion.equals(PopularMoviesUtils.FAVORITE) ||
+                        mPopularMoviesAdapter == null) {
+                    mPopularMoviesAdapter = new PopularMoviesAdapter(
+                            PopularMoviesFragment.this, popularMovies,
+                            mSortCriterion, mTwoPane);
+                }
+                mRecyclerView.setAdapter(mPopularMoviesAdapter);
             }
         }
     }
@@ -78,11 +85,16 @@ public class PopularMoviesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(
                 R.layout.fragment_popular_movies, container, false);
-        mRecyclerView = view.findViewById(R.id.recyclerview);
+        mRecyclerView = view.findViewById(R.id.list_popular_movies);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mRecyclerView.getContext(),
                 PopularMoviesUtils.spanCount(getContext()));
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mProgressBar = view.findViewById(R.id.progress_popular_movies);
+        if (view.findViewById(R.id.details_popular_movie) != null) {
+            mTwoPane = true;
+            view.findViewById(R.id.details_popular_movie).setId(
+                    PopularMoviesUtils.id.get(mSortCriterion));
+        }
         return view;
     }
 

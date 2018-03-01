@@ -20,18 +20,29 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 class PopularMoviesUtils {
     private final static String THEMOVIEDB_API_BASE_URL = "https://api.themoviedb.org/3/movie";
     private final static String THEMOVIEDB_IMAGE_BASE_URL = "http://image.tmdb.org/t/p";
+
     final static String POPULAR = "popular";
     final static String TOP_RATED = "top_rated";
+    final static String FAVORITE = "favorite";
+
+    final static Map<String, Integer> id = new HashMap<>();
+    static {
+        id.put(POPULAR, 0x1badbeef);
+        id.put(TOP_RATED, 0x1badcafe);
+        id.put(FAVORITE, 0x1badf00d);
+    }
+
     final static String REVIEWS = "reviews";
     final static String VIDEOS = "videos";
 
-    final static String FAVORITE = "favorite";
     private final static String API_KEY = "api_key";
     private final static String POSTER_SIZE = "w342";
 
@@ -50,7 +61,7 @@ class PopularMoviesUtils {
         return preferences.getString(context.getString(R.string.key_themoviedb_api_key), "");
     }
 
-    public static boolean isNetworkAvailable(Context context) {
+    static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = null;
@@ -244,7 +255,11 @@ class PopularMoviesUtils {
 
     static int spanCount(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        return (int) (((float)(displayMetrics.widthPixels) / displayMetrics.density) / 180);
+        float dp = (float)(displayMetrics.widthPixels) / displayMetrics.density;
+        if (dp < 900) {
+            return (int)(dp / 180);
+        }
+        return 2;
     }
 
     static boolean isSupported(String site) {
